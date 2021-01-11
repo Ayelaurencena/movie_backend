@@ -9,8 +9,16 @@ class UserService {
 
     }
 
-    getUser(data) {
+    async getUserById(id) {
+        const query = await User.findOne({"_id" : id}).exec();
+        return query;
 
+
+    }
+
+    async getByName(name) {
+        const query = await User.findOne({ name }).exec();
+        return query;
 
     }
 

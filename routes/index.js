@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require("passport");
 const UserController = require("./../controllers/userController");
 const UserService = require("./../services/userService");
 const UserInstance = new UserController(new UserService());
@@ -19,7 +20,7 @@ router.get("/users", function(req, res, next) {
 // [GET] /users/:id -> Muestra la información de un usuario particular, no tiene restricciones de acceso
 
 router.get("/user/:id", function(req, res, next) {
-  UserInstance.getUser(req, res);
+  UserInstance.getUserById(req, res);
 })
 
 // [POST] /users -> Sirve para crear un usuario en la base de datos, no tiene restricciones de acceso
@@ -39,5 +40,16 @@ router.put("/users/edit/:id", function(req, res, next) {
 router.delete("/users/delete/:id", function(req, res, next) {
   UserInstance.deleteuser(req, res);
 })
+
+router.post("/api/login", passport.authenticate("local"), (req, res) => {
+  return res.json({
+    ok: true
+  });
+});
+
+router.get("/api/verify", (req, res) => {
+  return res.json(req.user);
+});
+
 
 module.exports = router;

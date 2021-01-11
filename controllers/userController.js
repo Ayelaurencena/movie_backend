@@ -1,3 +1,5 @@
+const { render, response } = require("../app");
+
 class UserController {
 
     constructor (userService) {
@@ -10,11 +12,20 @@ class UserController {
         res.json(users);
     }
 
- async createUser(req, res) {
+    async getUserById(req, res) {
+        const id = req.params.id;
+
+        const user = await this.userService.getUserById(id);
+        return res.json(user);
+
+    }
+
+    async createUser(req, res) {
         const { body } = req;
-        const name = body.name.toLowerCase();
+       
 
         if(body.name && body.password) {
+            const name = body.name.toLowerCase();
             try {
 
                 const user = await this.userService.createUser({...body, name});
