@@ -40,13 +40,33 @@ class UserController {
         }
     }
 
-    editUser(req, res) {
-        res.send("El usuario ha sido editado");
+    async editUser(req, res) {
+        const { body } = req;
+        const { id } = req.params;
+
+        try {
+
+            const editedUser = await this.userService.editUser(id, body);
+            return res.sendStatus(200); 
+
+        } catch(e){
+        return res.status(400).send("El usuario no se ha podido actualizar")
+        }
 
     }
 
-    deleteUser(req, res) {
-        res.send("El usuario ha sido borrado");
+    async deleteUser(req, res) {
+        const { id } = req.params;
+
+        try {
+            const userDeleted = await  this.userService.deleteUser(id);
+            return res.status(200).send("El usuario ha sido borrado con éxito");
+
+        } catch(e) {
+            return res.status(400).send("El usuario no ha podido ser borrado");
+        
+    
+        }
     }
 
 } 

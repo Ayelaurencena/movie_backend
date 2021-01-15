@@ -33,12 +33,15 @@ class UserService {
 
     }
 
-    editUser(id, data) {
-
+    async editUser(id, data) {
+        const query = await User.findOneAndUpdate({ _id:id}, data).exec();
+        return query;
 
     }
 
-    deleteUser(id) {
+    async deleteUser(id) {
+        const query = await User.deleteOne({_id : id }).exec();
+        return query;
 
 
     }
