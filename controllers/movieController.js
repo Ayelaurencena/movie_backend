@@ -30,10 +30,19 @@ class MovieController {
        
 
         if(body.type == "serie" || body.type =="pelicula") {
-            const type = body.type.toLowerCase();
+            
+            const { name, category, type } = req.body;
+            const typeToLowerCase = type.toLowerCase();
+            const { file } = req.file;
+            const data = {
+                "name" : name,
+                "category": category,
+                "image" : file,
+                "type" : typeToLowerCase, 
+            }
             try {
 
-                const movie = await this.movieService.createMovie({...body, type});
+                const movie = await this.movieService.createMovie(data);
                 console.log(movie);
                 return res.status(200).json(movie);
 

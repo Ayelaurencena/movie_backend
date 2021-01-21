@@ -10,6 +10,17 @@ const MovieInstance = new MovieController(new MovieService());
 const checkAdmin = require("./../utils/checkAdmin");
 const checkLogin = require("./../utils/checkLogin");
 
+const multer = require("multer");
+const storage = multer.diskStorage({
+ destination: function (req, file, cb) {
+ cb(null, "./uploads");
+ },
+ filename: function (req, file, cb) {
+ cb(null, file.fieldname + "-" + Date.now() + ".png");
+ },
+});
+const upload = multer({ storage: storage });
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.send("Hola TP :)");
@@ -36,7 +47,7 @@ router.post("/users", function(req, res, next) {
 
 // [PUT] /users/edit/:id -> Sirve para modificar un usuario en la base de datos. Necesita estar autenticado y ser admin para que se ejecute
 
-router.put("/users/edit/:id", checkLogin, function(req, res, next) {
+router.put("/users/edit/:id", checkAdmin, function(req, res, next) {
   UserInstance.editUser(req, res);
 })
 
@@ -71,7 +82,7 @@ router.get("/movies/:id", checkLogin, function(req, res, next) {
 
 // [POST] /movies -> Sirve para crear una película en la base de datos. Necesita estar autenticado y ser admin para que se ejecute
 
-router.post("/movies", checkAdmin, function(req, res, next) {
+router.post("/movies", checkAdmin, upload.single("movie_img"), function(req, res, next) {
   MovieInstance.createMovie(req, res);
 })
 
