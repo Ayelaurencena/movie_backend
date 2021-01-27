@@ -35,7 +35,7 @@ router.get("/users", function(req, res, next) {
 
 // [GET] /users/:id -> Muestra la información de un usuario particular, no tiene restricciones de acceso
 
-router.get("/user/:id", function(req, res, next) {
+router.get("/users/:id", function(req, res, next) {
   UserInstance.getUserById(req, res);
 })
 

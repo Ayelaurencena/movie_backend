@@ -3,7 +3,13 @@ const { render, response } = require("../app");
 class MovieController {
 
     constructor (movieService) {
-        this.movieService = movieService;
+        try {
+            this.movieService = movieService;
+        } catch(e) {
+            console.log(e);
+          return res.status(400).send("El id no corresponde a una pelicula existente");
+        }
+        
     }
 
     async getMovies(req, res) {
