@@ -82,6 +82,8 @@ router.get("/movies/:id", checkLogin, function(req, res, next) {
 
 // [POST] /movies -> Sirve para crear una película en la base de datos. Necesita estar autenticado y ser admin para que se ejecute
 
+
+
 router.post("/movies", checkAdmin, upload.single("movie_img"), function(req, res, next) {
   MovieInstance.createMovie(req, res);
 })

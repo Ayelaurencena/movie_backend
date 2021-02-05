@@ -39,11 +39,12 @@ class MovieController {
             
             const { name, category, type } = req.body;
             const typeToLowerCase = type.toLowerCase();
-            const { file } = req.file;
+            console.log(req.file);
+            const { filename } = req.file;
             const data = {
                 "name" : name,
                 "category": category,
-                "image" : file,
+                "image" : filename,
                 "type" : typeToLowerCase, 
             }
             try {
@@ -53,6 +54,7 @@ class MovieController {
                 return res.status(200).json(movie);
 
             } catch(e) {
+                console.log(e);
                 return res.status(400);
             }
         } else {

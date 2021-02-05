@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+</head>
+<body>
+    <form enctype="multipart/form-data"  action="http://localhost:3000/movies" method="POST">
+        <input name="name" type="text">
+        <input name="movie_img" type="file">
+        <input name="category" type="text" placeholder="Categoria">
+        <input name="type" type="text" placeholder="serie o pelicula">
+        <input type="submit" value="Crear">
+    </form>
+</body>
+</html>
