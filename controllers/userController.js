@@ -13,9 +13,12 @@ class UserController {
 
     async getUserById(req, res) {
         const id = req.params.id;
-        const user = await this.userService.getUserById(id);
-        return res.status(200).json(user);
-
+        try {
+            const user = await this.userService.getUserById(id);
+            return res.status(200).json(user);
+        } catch(e){
+            return res.status(400).send("El usuario no existe")
+        }
     }
 
     async createUser(req, res) {
@@ -45,7 +48,7 @@ class UserController {
             return res.sendStatus(200); 
 
         } catch(e){
-        return res.status(400).send("El usuario no se ha podido actualizar")
+            return res.status(400).send("El usuario no se ha podido actualizar")
         }
 
     }

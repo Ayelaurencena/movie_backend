@@ -13,9 +13,8 @@ class MovieController {
     }
 
     async getMovies(req, res) {
-        const movies = await this.movieService.getMovies();
-
-        res.json(movies);
+            const movies = await this.movieService.getMovies();
+            res.json(movies);
     }
 
     async getMovieById(req, res) {
@@ -26,15 +25,13 @@ class MovieController {
             return res.json(movie);
 
         } catch(e) {
-            return res.sendStatus(400)
+            return res.status(400).send("La pelicula no existe");
         }
 
     }
 
     async createMovie(req, res) {
         const { body } = req;
-       
-
         if(body.type == "serie" || body.type =="pelicula") {
             
             const { name, category, type } = req.body;
@@ -54,25 +51,33 @@ class MovieController {
                 return res.status(200).json(movie);
 
             } catch(e) {
-                console.log(e);
-                return res.status(400);
+                return res.status(400).send("Corrige la información ingresada");
             }
         } else {
-            res.sendStatus(400);
+            res.status(400).send("Las categorias aceptadas son *serie* y *pelicula*");
         }
     }
 
 
 
     async editMovie(req, res) {
-        const { body } = req;
-        const { id } = req.params       
+        const { name, category, type } = req.body;
+        const typeToLowerCase = type.toLowerCase();
+        const { id } = req.params;
+        console.log(req.file);
+        const { filename } = req.file;  
+        const data = {
+            "name" : name,
+            "category": category,
+            "image" : filename,
+            "type" : typeToLowerCase, 
+        }      
         try {
-            const editedMovie = await this.movieService.editMovie(id, body);
+            const editedMovie = await this.movieService.editMovie(id, data);
             return res.json(editedMovie);
         } catch(e) {
             console.log(e);
-            return res.sendStatus(400);
+            return res.status(400).send("No fue posible actualizar el elemento");
         }
 
     }
@@ -84,10 +89,10 @@ class MovieController {
         const { id } = req.params;       
         try {
             await this.movieService.deleteMovie(id);
-            return res.status(200).send("La película ha sido borrada")
+            return res.status(200).send("La película ha sido borrada");
         } catch(e) {
             console.log(e);
-            return res.sendStatus(400);
+            return res.status(400).send("El elemento que quiere borrar no existe");
         }
 
     }

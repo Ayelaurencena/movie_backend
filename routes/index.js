@@ -90,7 +90,7 @@ router.post("/movies", checkAdmin, upload.single("movie_img"), function(req, res
 
 // [PUT] /movies/edit/:id -> Sirve para modificar una película en la base de datos. Necesita estar autenticado y ser admin para que se ejecute
 
-router.put("/movies/edit/:id", checkAdmin, function(req, res, next) {
+router.put("/movies/edit/:id", checkAdmin, upload.single("movie_img"), function(req, res, next) {
   MovieInstance.editMovie(req, res);
 })
 
